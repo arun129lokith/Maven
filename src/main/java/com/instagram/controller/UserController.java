@@ -30,35 +30,7 @@ public class UserController {
      * @return The user controller object.
      */
     public static UserController getInstance() {
-        if (null == userController) {
-            userController = new UserController();
-        }
-
-        return userController;
-    }
-
-    /**
-     * <p>
-     * Signs up a new user with user details of user class.
-     * </p>
-     *
-     * @param user Represents {@link User} details.
-     * @return True if sign-up is successful, false otherwise.
-     */
-    public boolean signUp(final User user) {
-        return USER_SERVICE.signUp(user);
-    }
-
-    /**
-     * <p>
-     * Signs in a new user with user details of user class.
-     * </p>
-     *
-     * @param user Represents {@link User} details.
-     * @return True if sign-in is successful, false otherwise.
-     */
-    public boolean signIn(final User user) {
-        return USER_SERVICE.signIn(user);
+       return null == userController ? userController = new UserController() : userController;
     }
 
     /**

@@ -15,7 +15,7 @@ import java.time.Instant;
  * @author Arun
  * @version 1.0
  */
-public class PostView extends View {
+public class PostView extends CommonView {
 
     private final UserView USER_VIEW = UserView.getInstance();
     private static PostView postView = null;
@@ -89,9 +89,9 @@ public class PostView extends View {
      */
     private String getLocation() {
         System.out.println("Enter Your Location Of Your Post:");
-        final String location = SCANNER.nextLine().trim();
+        final String location = scanner.nextLine().trim();
 
-        return VALIDATION.isValidLocation(location) ? location : getLocation();
+        return validation.isValidLocation(location) ? location : getLocation();
     }
 
     /**
@@ -104,7 +104,7 @@ public class PostView extends View {
     private String getCaption() {
         System.out.println("Enter Your Caption:");
 
-        return SCANNER.nextLine();
+        return scanner.nextLine();
     }
 
     /**
@@ -125,7 +125,7 @@ public class PostView extends View {
         post.withUserId(userId);
 
 
-        System.out.println(POST_CONTROLLER.create(post.build()) ? "User Posted Successfully" : "Post Not Created");
+        System.out.println(postController.create(post.build()) ? "User Posted Successfully" : "Post Not Created");
         menu(userId);
     }
 
@@ -155,7 +155,7 @@ public class PostView extends View {
      * </p>
      */
     private void displayAll() {
-        System.out.println(POST_CONTROLLER.getAllPost());
+        System.out.println(postController.getAllPost());
     }
 
     /**
@@ -166,7 +166,7 @@ public class PostView extends View {
      * @return The post details of the id.
      */
     private Post getPost() {
-        final Post post = POST_CONTROLLER.getPost(getPostId());
+        final Post post = postController.getPost(getPostId());
 
         System.out.println(null != post ? post : "Post Not Found");
 
@@ -180,7 +180,7 @@ public class PostView extends View {
      */
     private void delete() {
         System.out.println("Enter Your PostId:");
-        System.out.println(POST_CONTROLLER.delete(getPostId()) ? "Post Deleted Successfully"
+        System.out.println(postController.delete(getPostId()) ? "Post Deleted Successfully"
                 : "Post Not Found");
     }
 
@@ -202,7 +202,7 @@ public class PostView extends View {
             post.setCaption(USER_VIEW.exitAccess() ? existingPost.getCaption() : getCaption());
             post.setUploadedTime(Timestamp.from(Instant.now()));
 
-            POST_CONTROLLER.update(post);
+            postController.update(post);
             System.out.println("Post Updated Successfully");
         } else {
             System.out.println("Please Try Again");
@@ -220,7 +220,7 @@ public class PostView extends View {
         System.out.println("Enter Your PostId:");
 
         try {
-            return Long.parseLong(SCANNER.nextLine());
+            return Long.parseLong(scanner.nextLine());
         } catch (final NumberFormatException message) {
             System.out.println("Invalid Post Id Format. Please Enter A Number");
         }
@@ -240,7 +240,7 @@ public class PostView extends View {
         final Post post = getPost();
 
         if (null != post) {
-            final Post existingPost = POST_CONTROLLER.getPost(post.getId(), userId);
+            final Post existingPost = postController.getPost(post.getId(), userId);
 
             System.out.println(null != existingPost ? existingPost : "Post Not Created By This User And No Access To Update");
 
@@ -258,7 +258,7 @@ public class PostView extends View {
      * @return The post id.
      */
     private long idGenerator() {
-        return POST_CONTROLLER.getAllPost().size() + 1;
+        return postController.getAllPost().size() + 1;
     }
 }
 

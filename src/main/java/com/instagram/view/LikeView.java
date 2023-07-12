@@ -14,7 +14,7 @@ import java.util.Collection;
  * @author Arun.
  * @version 1.0.
  */
-public class LikeView extends View {
+public class LikeView extends CommonView {
 
     private final PostView POST_VIEW = PostView.getInstance();
     private final UserView USER_VIEW = UserView.getInstance();
@@ -147,7 +147,7 @@ public class LikeView extends View {
         System.out.println("Enter Your Like Id:");
 
         try {
-            return Long.valueOf(SCANNER.nextLine());
+            return Long.valueOf(scanner.nextLine());
         } catch (final NumberFormatException message) {
             System.out.println("Invalid Like Id Format. Please Enter A Number");
         }
@@ -165,7 +165,7 @@ public class LikeView extends View {
     private Long getPostId() {
         final Long id = POST_VIEW.getPostId();
 
-        if (null == POST_CONTROLLER.getPost(id)) {
+        if (null == postController.getPost(id)) {
             System.out.println("Post Not Found By The Id. Please Try Again");
 
             return getPostId();

@@ -5,22 +5,24 @@ import com.instagram.model.UserBuilder;
 
 /**
  * <p>
- * Provides a authentication for the user to access the features of the application.
+ * Gets the authorization window and present it to the user
  * </p>
  *
- * @author Arun.
- * @version 1.0.
+ * @author Arun
+ * @version 1.0
  */
-public class AuthenticationView extends View {
+public class AuthenticationView extends CommonView {
 
     private static AuthenticationView authenticationView;
-    private final UserView USER_VIEW = UserView.getInstance();
+    private final UserView userView;
 
-    private AuthenticationView() {}
+    private AuthenticationView() {
+        userView = UserView.getInstance();
+    }
 
     /**
      * <p>
-     * Gets a static instance object of the class.
+     * Gets the object of the authentication view class.
      * </p>
      *
      * @return The authentication view object.
@@ -63,18 +65,18 @@ public class AuthenticationView extends View {
         final UserBuilder user = UserBuilder.getInstance();
 
         user.withId(idGenerator());
-        user.withName(USER_VIEW.getValidName(USER_VIEW.getName()));
-        user.withEmail(USER_VIEW.getValidEmail(USER_VIEW.getEmail()));
-        user.withPassword(USER_VIEW.getPassword());
-        user.withMobileNumber(USER_VIEW.getValidMobileNumber(USER_VIEW.getMobileNumber()));
+        user.withName(userView.getValidName(userView.getName()));
+        user.withEmail(userView.getValidEmail(userView.getEmail()));
+        user.withPassword(userView.getPassword());
+        user.withMobileNumber(userView.getValidMobileNumber(userView.getMobileNumber()));
 
-        if (USER_CONTROLLER.signUp(user.build())) {
+        if (authenticationController.signUp(user.build())) {
             System.out.println("Sign Up Successfully");
 
             if (exitAccess()) {
                 menu();
             } else {
-                USER_VIEW.userScreen(USER_CONTROLLER.getId(user.build()));
+                userView.userScreen(userController.getId(user.build()));
             }
         }
         menu();
@@ -89,11 +91,11 @@ public class AuthenticationView extends View {
         final UserBuilder user = UserBuilder.getInstance();
 
         userChoice(user);
-        user.withPassword(USER_VIEW.getPassword());
+        user.withPassword(userView.getPassword());
 
-        if (USER_CONTROLLER.signIn(user.build())) {
+        if (authenticationController.signIn(user.build())) {
             System.out.println("Sign in successfully");
-            USER_VIEW.userScreen(USER_CONTROLLER.getId(user.build()));
+            userView.userScreen(userController.getId(user.build()));
         } else {
             System.out.println("User Not Found. Please Try Again");
             menu();
@@ -112,10 +114,10 @@ public class AuthenticationView extends View {
 
         switch (getChoice()) {
             case 1:
-                user.withEmail(USER_VIEW.getEmail());
+                user.withEmail(userView.getEmail());
                 break;
             case 2:
-                user.withMobileNumber(USER_VIEW.getMobileNumber());
+                user.withMobileNumber(userView.getMobileNumber());
                 break;
             default:
                 System.out.println("Invalid User Choice. Please Enter the Choice 1 or 2");
@@ -132,7 +134,7 @@ public class AuthenticationView extends View {
      * @return The user id.
      */
     private long idGenerator() {
-        return USER_CONTROLLER.getAllUsers().size() + 1;
+        return userController.getAllUsers().size() + 1;
     }
 
     /**
@@ -142,8 +144,8 @@ public class AuthenticationView extends View {
      */
     private void exit() {
         System.out.println("Exiting");
-        SCANNER.close();
-        CONNECTION.closeConnectionPool();
+        scanner.close();
+        connection.closeConnectionPool();
         System.exit(0);
     }
 }

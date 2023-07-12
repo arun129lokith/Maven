@@ -38,88 +38,11 @@ public class UserDaoImpl implements UserDao {
         return null == userDaoImpl ? userDaoImpl = new UserDaoImpl() : userDaoImpl;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @param user Represents {@link User} details.
-     * @return True if sign-up is successful, false otherwise.
-     */
-    @Override
-    public boolean signUp(final User user) {
-        final String query = "INSERT INTO USERS (NAME, MOBILE_NUMBER, EMAIL, PASSWORD) VALUES (?,?,?,?)";
 
-        try (final Connection connection = CONNECTION_POOL.get();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getMobileNumber());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getPassword());
 
-            preparedStatement.executeUpdate();
-            CONNECTION_POOL.releaseConnection(connection);
 
-            return true;
-        } catch (final InterruptedException | SQLException message) {
-            System.out.println(message.getMessage());
-        }
 
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param user Represents {@link User} details.
-     * @return True if mobile number is exists, false otherwise.
-     */
-    @Override
-    public boolean isMobileNumberExist(final User user) {
-        final String query = "SELECT * FROM USERS WHERE MOBILE_NUMBER = ? AND PASSWORD = ?";
-
-        try (final Connection connection = CONNECTION_POOL.get();
-             final PreparedStatement checkStatement = connection.prepareStatement(query)) {
-
-            checkStatement.setString(1, user.getMobileNumber());
-            checkStatement.setString(2, user.getPassword());
-            final ResultSet resultSet = checkStatement.executeQuery();
-
-            CONNECTION_POOL.releaseConnection(connection);
-
-            return resultSet.next();
-        } catch (final SQLException | InterruptedException message) {
-            System.out.println(message.getMessage());
-        }
-
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param user Represents {@link User} details.
-     * @return True if email is exists, false otherwise.
-     */
-    @Override
-    public boolean isEmailExist(final User user) {
-        final String query = "SELECT * FROM USERS WHERE EMAIL = ? AND PASSWORD = ?";
-
-        try (final Connection connection = CONNECTION_POOL.get();
-             final PreparedStatement checkStatement = connection.prepareStatement(query)) {
-
-            checkStatement.setString(1, user.getEmail());
-            checkStatement.setString(2, user.getPassword());
-            final ResultSet resultSet = checkStatement.executeQuery();
-
-            CONNECTION_POOL.releaseConnection(connection);
-
-            return resultSet.next();
-        } catch (final SQLException | InterruptedException message) {
-            System.out.println(message.getMessage());
-        }
-
-        return false;
-    }
 
     /**
      * {@inheritDoc}

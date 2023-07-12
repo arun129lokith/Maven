@@ -1,27 +1,29 @@
 package com.instagram.view;
 
+import com.instagram.controller.AuthenticationController;
 import com.instagram.controller.PostController;
 import com.instagram.controller.UserController;
 import com.instagram.database.DataBaseConnectionPool;
-import com.instagram.view.validation.Validation;
+import com.instagram.view.validation.CommonValidation;
 
 import java.util.Scanner;
 
 /**
  * <p>
- * Represents the commonly used field and methods in the application.
+ * Represents the commonly used field and methods in the application
  * </p>
  *
- * @author Arun.
- * @version 1.0.
+ * @author Arun
+ * @version 1.0
  */
-public class View {
+public class CommonView {
 
-    protected final Scanner SCANNER = ScannerInstance.getInstance();
-    protected final Validation VALIDATION = Validation.getInstance();
-    protected final PostController POST_CONTROLLER = PostController.getInstance();
-    protected final UserController USER_CONTROLLER = UserController.getInstance();
-    protected final DataBaseConnectionPool CONNECTION = DataBaseConnectionPool.getInstance();
+    protected final Scanner scanner = ScannerInstance.getInstance();
+    protected final CommonValidation validation = CommonValidation.getInstance();
+    protected final AuthenticationController authenticationController = AuthenticationController.getInstance();
+    protected final PostController postController = PostController.getInstance();
+    protected final UserController userController = UserController.getInstance();
+    protected final DataBaseConnectionPool connection = DataBaseConnectionPool.getInstance();
 
     /**
      * <p>
@@ -34,7 +36,7 @@ public class View {
         System.out.println("Enter Your Choice:");
 
         try {
-            return Integer.parseInt(SCANNER.nextLine());
+            return Integer.parseInt(scanner.nextLine());
         } catch (final NumberFormatException message) {
             System.out.println("Invalid Choice. Please Enter An Integer");
         }
@@ -53,6 +55,6 @@ public class View {
         System.out.println(String.join(" ","Do You Want To Continue The Process Press 'Any Key Or",
                 "Word' Else Press 'N Key Or No Word' For Exit The Process\nEnter Your Message For Continue Or Exit:"));
 
-        return VALIDATION.isExit(SCANNER.nextLine());
+        return validation.continueOrExit(scanner.nextLine());
     }
 }
