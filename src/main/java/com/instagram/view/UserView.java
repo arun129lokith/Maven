@@ -1,32 +1,30 @@
 package com.instagram.view;
 
-import com.instagram.controller.UserController;
 import com.instagram.model.UserBuilder;
 import com.instagram.model.Post;
 import com.instagram.model.User;
 
 /**
  * <p>
- * Users to interact with application for accessing the features of the application.
+ * Users to interact with application for accessing the features of the application
  * </p>
  *
  * @author Arun
  * @version 1.0
  */
-public class UserView extends View {
+public class UserView extends CommonView {
 
-    private final UserController USER_CONTROLLER = UserController.getInstance();
-    private  final AuthenticationView AUTHENTICATION_VIEW = AuthenticationView.getInstance();
+    private final AuthenticationView AUTHENTICATION_VIEW = AuthenticationView.getInstance();
     private static UserView userView = null;
 
-    private UserView(){}
+    private UserView() {}
 
     /**
      * <p>
-     * Gets a static instance object of the class.
+     * Gets the object of the user view class.
      * </p>
      *
-     * @return The user view object.
+     * @return The user view object
      */
     public static UserView getInstance() {
         return null == userView ?  userView = new UserView() : userView;
@@ -43,11 +41,11 @@ public class UserView extends View {
         System.out.println(String.join("\n", "Enter Your UserName:",
                 "[Username Contains Lowercase Letter And Underscore And Digits Without Space]",
                 "If You Want To Exit Press '!'"));
-        final String name = SCANNER.nextLine().trim();
+        final String name = scanner.nextLine().trim();
 
         exitMenu(name);
 
-        return VALIDATION.validateUserName(name) ? name : getName();
+        return validation.validateUserName(name) ? name : getName();
     }
 
     /**
@@ -59,7 +57,7 @@ public class UserView extends View {
      * @return The valid username.
      */
     public String getValidName(final String name) {
-        if (USER_CONTROLLER.isNameExist(name)) {
+        if (validation.isValidName(name)) {
             System.out.println("User Name Already Exist. Please Re-enter The Valid User Name");
 
             return getValidName(getName());
@@ -80,11 +78,11 @@ public class UserView extends View {
                 "\n[EmailId Must Contains Lowercase Letter[a-z] Then Contain Digits[0-9] Is Optional One",
                 "'@' After Must Contains [5 Or Above] Lowercase Letter And '.' After Must Contains 2 Or 3 ",
                 "Characters]\nIF You Want To Exit Press '!'"));
-        final String email = SCANNER.nextLine().trim();
+        final String email = scanner.nextLine().trim();
 
         exitMenu(email);
 
-        return VALIDATION.validateEmail(email) ? email : getEmail();
+        return validation.validateEmail(email) ? email : getEmail();
     }
 
     /**
@@ -96,7 +94,7 @@ public class UserView extends View {
      * @return The mobile number of the user.
      */
     public String getValidEmail(final String email) {
-        if (USER_CONTROLLER.isEmailExist(email)) {
+        if (validation.isValidEmail(email)) {
             System.out.println("User Email Is Already Exist. Please Re-enter The Valid User Name");
 
             return getValidEmail(getEmail());
@@ -116,11 +114,11 @@ public class UserView extends View {
         System.out.println(String.join(" ", "Enter Your Password:", "\n[Password Must Contain At least",
                 "One Uppercase, One Lowercase, Special Character And Digits In The Range 8-20 Characters]",
                 "\nIF You Want To Exit Press '!'"));
-        final String password = SCANNER.nextLine().trim();
+        final String password = scanner.nextLine().trim();
 
         exitMenu(password);
 
-        return VALIDATION.validatePassword(password) ? password : getPassword();
+        return validation.validatePassword(password) ? password : getPassword();
     }
 
     /**
@@ -133,11 +131,11 @@ public class UserView extends View {
     public String getMobileNumber() {
         System.out.println(String.join(" ", "Enter Your Mobile Number:", "\n[Mobile Number Must",
                 "Contains 10 Digits  And Starts With [6-9]]", "\nIf You Want To Exit Press '!'"));
-        final String mobileNumber = SCANNER.nextLine().trim();
+        final String mobileNumber = scanner.nextLine().trim();
 
         exitMenu(mobileNumber);
 
-        return VALIDATION.validateMobileNumber(mobileNumber) ? mobileNumber : getMobileNumber();
+        return validation.validateMobileNumber(mobileNumber) ? mobileNumber : getMobileNumber();
     }
 
     /**
@@ -149,7 +147,7 @@ public class UserView extends View {
      * @return The mobile number of the user.
      */
     public String getValidMobileNumber(final String mobileNumber) {
-        if (USER_CONTROLLER.isMobileNumberExist(mobileNumber)) {
+        if (validation.isValidMobileNumber(mobileNumber)) {
             System.out.println("User Mobile Number Is Already Exist. Please Re-enter The Valid User Name");
 
             return getValidMobileNumber(getMobileNumber());
@@ -165,7 +163,7 @@ public class UserView extends View {
      */
     private void getUser() {
         System.out.println("Enter Your UserId:");
-        final User user = USER_CONTROLLER.getUser(getUserId());
+        final User user = userController.getUser(getUserId());
 
         System.out.println(null != user ? user : "User Not Found");
     }
@@ -176,7 +174,7 @@ public class UserView extends View {
      * </p>
      */
     private void getAllUsers() {
-        System.out.println(USER_CONTROLLER.getAllUsers());
+        System.out.println(userController.getAllUsers());
     }
 
     /**
@@ -260,7 +258,7 @@ public class UserView extends View {
      */
     private Long getUserId() {
         try {
-            return Long.parseLong(SCANNER.nextLine());
+            return Long.parseLong(scanner.nextLine());
         } catch (final NumberFormatException message) {
             System.out.println("Invalid User Id Format. Please Enter A Number");
         }
@@ -286,7 +284,7 @@ public class UserView extends View {
         user.withEmail(exitAccess() ? existingUser.getEmail() : getValidEmail(getEmail()));
         user.withMobileNumber(exitAccess() ? existingUser.getMobileNumber() : getValidMobileNumber(getMobileNumber()));
 
-        System.out.println(USER_CONTROLLER.update(user.build()) ? "Account Updated Successfully" : "User Not Found");
+        System.out.println(userController.update(user.build()) ? "Account Updated Successfully" : "User Not Found");
     }
 
     /**
@@ -298,7 +296,7 @@ public class UserView extends View {
      * @return Represents {@link User} information.
      */
     public User getUserById(final Long id) {
-        return USER_CONTROLLER.getUser(id);
+        return userController.getUser(id);
     }
 
     /**
@@ -309,7 +307,7 @@ public class UserView extends View {
     private void delete() {
         System.out.println("Enter Your User Id:");
 
-        if (USER_CONTROLLER.delete(getUserId())) {
+        if (userController.delete(getUserId())) {
             System.out.println("User Account Deleted Successfully");
             AUTHENTICATION_VIEW.menu();
         } else {
@@ -326,7 +324,7 @@ public class UserView extends View {
         System.out.println("Logged Out Successfully");
 
         if (exitAccess()) {
-            SCANNER.close();
+            scanner.close();
             System.exit(0);
         }
         AUTHENTICATION_VIEW.menu();
@@ -340,7 +338,7 @@ public class UserView extends View {
      * @param userChoice Represents the choice of the user.
      */
     private void exitMenu(final String userChoice) {
-        if (VALIDATION.backMenu(userChoice)) {
+        if (validation.backToMenu(userChoice)) {
             AUTHENTICATION_VIEW.menu();
         }
     }
