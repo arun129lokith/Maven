@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * <p>
- * Represents a basic user entity with various properties and methods.
+ * Represents a basic user entity with various properties and methods
  * </p>
  *
  * @author Arun

@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * <p>
- * Implements the service of the post related operation.
+ * Implements the service of the post related operation
  * </p>
  *
  * @author Arun
@@ -21,16 +21,18 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
 
     private static PostServiceImpl postServiceImpl = null;
-    private static final PostDao POST_DAO = PostDaoImpl.getInstance();
+    private  final PostDao postDao;
 
-    private PostServiceImpl() {}
+    private PostServiceImpl() {
+        postDao = PostDaoImpl.getInstance();
+    }
 
     /**
      * <p>
-     * Gets a static instance object of the class.
+     * Gets a static instance object of the class
      * </p>
      *
-     * @return The post service implementation object.
+     * @return The post service implementation object
      */
     public static PostServiceImpl getInstance() {
         return null == postServiceImpl ? postServiceImpl = new PostServiceImpl() : postServiceImpl;
@@ -39,8 +41,8 @@ public class PostServiceImpl implements PostService {
     /**
      * {@inheritDoc}
      *
-     * @param post Represents {@link Post} details of the user.
-     * @return True if post is created, false otherwise.
+     * @param post Represents {@link Post} details of the user
+     * @return True if post is created, false otherwise
      */
     @Override
     public boolean create(final Post post) {
@@ -51,61 +53,61 @@ public class PostServiceImpl implements PostService {
         posts.add(post);
         user.setPosts(posts);
 
-        return POST_DAO.create(post);
+        return postDao.create(post);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @return The collection of post.
+     * @return The collection of post
      */
     @Override
     public Collection<Post> getAllPost() {
-        return POST_DAO.getAllPost();
+        return postDao.getAllPost();
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param id Represents post id.
-     * @return Represents {@link Post} details.
+     * @param id Represents post id
+     * @return Represents {@link Post} details
      */
     @Override
     public Post getPost(final Long id) {
-        return POST_DAO.getPost(id);
+        return postDao.getPost(id);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param id Represents post id.
-     * @return True if post is removed, false otherwise.
+     * @param id Represents post id
+     * @return True if post is removed, false otherwise
      */
     @Override
     public boolean delete(final Long id) {
-        return POST_DAO.delete(id);
+        return postDao.delete(id);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param updatedPost Represents {@link Post} update details.
-     * @return True if post is updated, false otherwise.
+     * @param updatedPost Represents {@link Post} update details
+     * @return True if post is updated, false otherwise
      */
     @Override
     public boolean update(final Post updatedPost) {
-        return POST_DAO.update(updatedPost);
+        return postDao.update(updatedPost);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param userId Represents id of the user.
-     * @param id Represents post id.
+     * @param userId Represents id of the user
+     * @param id Represents post id
      * @return The post details of the user.
      */
     @Override
     public Post getPost(final Long id, final Long userId) {
-        return POST_DAO.getPost(id, userId);
+        return postDao.getPost(id, userId);
     }
 }

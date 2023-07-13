@@ -9,25 +9,27 @@ import java.util.Collection;
 
 /**
  * <p>
- * Handles the like related operation of the post and responsible for receiving user input and processing it.
+ * Handles the like related operation of the post and responsible for receiving user input and processing it
  * </p>
  *
- * @author Arun.
- * @version 1.0.
+ * @author Arun
+ * @version 1.0
  */
 public class LikeController {
 
     private static LikeController likeController;
-    private static final LikeService LIKE_SERVICE = LikeServiceImpl.getInstance();
+    private final LikeService likeService;
 
-    private LikeController() {}
+    private LikeController() {
+        likeService = LikeServiceImpl.getInstance();
+    }
 
     /**
      * <p>
-     * Gets a static instance object of the class.
+     * Gets the object of the class
      * </p>
      *
-     * @return The like controller object.
+     * @return The like controller object
      */
     public static LikeController getInstance() {
         return null == likeController ? likeController = new LikeController() : likeController;
@@ -35,48 +37,48 @@ public class LikeController {
 
     /**
      * <p>
-     * Creates the like for the post.
+     * Creates the like for the post
      * </p>
      *
-     * @param like Represents {@link Like} details.
+     * @param like Represents {@link Like} details
      */
     public void likePost(final Like like) {
-        LIKE_SERVICE.likePost(like);
+        likeService.likePost(like);
     }
 
     /**
      * <p>
-     * Removes the like for the post provided by the user.
+     * Removes the like for the post provided by the user
      * </p>
      *
-     * @param id Represents like id.
-     * @return True if like is removed, false otherwise.
+     * @param id Represents like id
+     * @return True if like is removed, false otherwise
      */
     public boolean unlikePost(final Long id) {
-        return LIKE_SERVICE.unlikePost(id);
+        return likeService.unlikePost(id);
     }
 
     /**
      * <p>
-     * Gets the collection of user who react for the post.
+     * Gets the collection of user who react for the post
      * </p>
      *
-     * @param postId Represents post id.
-     * @return The collection of user.
+     * @param postId Represents post id
+     * @return The collection of user
      */
     public Collection<User> getLikeUser(final Long postId) {
-        return LIKE_SERVICE.getLikeUser(postId);
+        return likeService.getLikeUser(postId);
     }
 
     /**
      * <p>
-     * Gets the count of the like for the post.
+     * Gets the count of the like for the post
      * </p>
      *
-     * @param postId Represents post id.
-     * @return The count of the like.
+     * @param postId Represents post id
+     * @return The count of the like
      */
     public Long getLikeCount(final Long postId) {
-        return LIKE_SERVICE.getLikeCount(postId);
+        return likeService.getLikeCount(postId);
     }
 }

@@ -13,7 +13,7 @@ import java.util.LinkedList;
 
 /**
  * <p>
- * Implements the data base service of the post related operation.
+ * Implements the data base service of the post related operation
  * </p>
  *
  * @author Arun
@@ -22,16 +22,18 @@ import java.util.LinkedList;
 public class PostDaoImpl implements PostDao {
 
     private static PostDaoImpl postDaoImpl = null;
-    private static final DataBaseConnectionPool CONNECTION_POOL = DataBaseConnectionPool.getInstance();
+    private final DataBaseConnectionPool connectionPool;
 
-    private PostDaoImpl() {}
+    private PostDaoImpl() {
+        connectionPool = DataBaseConnectionPool.getInstance();
+    }
 
     /**
      * <p>
-     * Gets a static instance object of the class.
+     * Gets the object of the class
      * </p>
      *
-     * @return The post database service implementation object.
+     * @return The post database service implementation object
      */
     public static PostDaoImpl getInstance() {
         return null == postDaoImpl ? postDaoImpl = new PostDaoImpl() : postDaoImpl;
@@ -40,15 +42,15 @@ public class PostDaoImpl implements PostDao {
     /**
      * {@inheritDoc}
      *
-     * @param post Represents {@link Post} details of the user.
-     * @return True if post is created, false otherwise.
+     * @param post Represents {@link Post} details of the user
+     * @return True if post is created, false otherwise
      */
     @Override
     public boolean create(final Post post) {
         final String query = String.join("","INSERT INTO POST(CAPTION, LOCATION, FORMAT, ",
                 "UPLOADED_TIME, USER_ID) VALUES (?, ? , ?::POST_FORMAT, ?, ?)");
 
-        try (final Connection connection = CONNECTION_POOL.get();
+        try (final Connection connection = connectionPool.get();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, post.getCaption());
@@ -58,7 +60,7 @@ public class PostDaoImpl implements PostDao {
             preparedStatement.setLong(5, post.getUserId());
 
             preparedStatement.executeUpdate();
-            CONNECTION_POOL.releaseConnection(connection);
+            connectionPool.releaseConnection(connection);
 
             return true;
         } catch (final SQLException | InterruptedException message) {
@@ -71,14 +73,14 @@ public class PostDaoImpl implements PostDao {
     /**
      * {@inheritDoc}
      *
-     * @return The collection of post.
+     * @return The collection of post
      */
     @Override
     public Collection<Post> getAllPost() {
         final Collection<Post> posts = new LinkedList<>();
         final String query = "SELECT * FROM POST";
 
-        try (final Connection connection =CONNECTION_POOL.get();
+        try (final Connection connection = connectionPool.get();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             final ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -93,7 +95,7 @@ public class PostDaoImpl implements PostDao {
                 post.setUserId(resultSet.getLong("USER_ID"));
                 posts.add(post);
             }
-            CONNECTION_POOL.releaseConnection(connection);
+            connectionPool.releaseConnection(connection);
         } catch (final SQLException | InterruptedException message) {
             System.out.println(message.getMessage());
         }
@@ -104,14 +106,14 @@ public class PostDaoImpl implements PostDao {
     /**
      * {@inheritDoc}
      *
-     * @param id Represents post id.
-     * @return Represents {@link Post} details.
+     * @param id Represents post id
+     * @return Represents {@link Post} details
      */
     @Override
     public Post getPost(final Long id) {
         final String query = "SELECT * FROM POST WHERE ID = ?";
 
-        try (final Connection connection = CONNECTION_POOL.get();
+        try (final Connection connection = connectionPool.get();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setLong(1, id);
@@ -127,7 +129,7 @@ public class PostDaoImpl implements PostDao {
                 post.setUploadedTime(resultSet.getTimestamp("UPLOADED_TIME"));
                 post.setUserId(resultSet.getLong("USER_ID"));
 
-                CONNECTION_POOL.releaseConnection(connection);
+                connectionPool.releaseConnection(connection);
 
                 return post;
             }
@@ -141,21 +143,21 @@ public class PostDaoImpl implements PostDao {
     /**
      * {@inheritDoc}
      *
-     * @param id Represents post id.
-     * @return True if post is removed, false otherwise.
+     * @param id Represents post id
+     * @return True if post is removed, false otherwise
      */
     @Override
     public boolean delete(final Long id) {
         final String query = "DELETE FROM POST WHERE ID = ?";
 
-        try (final Connection connection = CONNECTION_POOL.get();
+        try (final Connection connection = connectionPool.get();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 
             preparedStatement.setLong(1, id);
             int rowDeleted = preparedStatement.executeUpdate();
 
-            CONNECTION_POOL.releaseConnection(connection);
+            connectionPool.releaseConnection(connection);
 
             if (0 < rowDeleted) {
                 return true;
@@ -170,15 +172,15 @@ public class PostDaoImpl implements PostDao {
     /**
      * {@inheritDoc}
      *
-     * @param updatedPost Represents {@link Post} update details.
-     * @return True if post is updated, false otherwise.
+     * @param updatedPost Represents {@link Post} update details
+     * @return True if post is updated, false otherwise
      */
     @Override
     public boolean update(final Post updatedPost) {
         final String query = String.join("","UPDATE POST SET CAPTION = ?, LOCATION = ?, ",
                 "FORMAT = ?::POST_FORMAT, UPLOADED_TIME = ?  WHERE ID = ?");
 
-        try (final Connection connection = CONNECTION_POOL.get();
+        try (final Connection connection = connectionPool.get();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, updatedPost.getCaption());
@@ -188,7 +190,7 @@ public class PostDaoImpl implements PostDao {
             preparedStatement.setLong(5, updatedPost.getId());
             final int rowUpdated = preparedStatement.executeUpdate();
 
-            CONNECTION_POOL.releaseConnection(connection);
+            connectionPool.releaseConnection(connection);
 
             if (0 < rowUpdated) {
                 return true;
@@ -203,15 +205,15 @@ public class PostDaoImpl implements PostDao {
     /**
      * {@inheritDoc}
      *
-     * @param userId Represents id of the user.
-     * @param id Represents post id.
-     * @return The post details of the user.
+     * @param userId Represents id of the user
+     * @param id Represents post id
+     * @return The post details of the user
      */
     @Override
     public Post getPost(final Long id, final Long userId) {
         final String query = "SELECT * FROM POST WHERE ID = ? AND USER_ID = ?";
 
-        try (final Connection connection = CONNECTION_POOL.get();
+        try (final Connection connection = connectionPool.get();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setLong(1, id);
@@ -228,7 +230,7 @@ public class PostDaoImpl implements PostDao {
                 post.setUploadedTime(resultSet.getTimestamp("UPLOADED_TIME"));
                 post.setUserId(resultSet.getLong("USER_ID"));
 
-                CONNECTION_POOL.releaseConnection(connection);
+                connectionPool.releaseConnection(connection);
 
                 return post;
             }

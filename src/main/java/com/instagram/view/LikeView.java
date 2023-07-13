@@ -8,28 +8,31 @@ import java.util.Collection;
 
 /**
  * <p>
- * Provides user reaction for the post of the application.
+ * Provides user reaction for the post of the application
  * </p>
  *
- * @author Arun.
- * @version 1.0.
+ * @author Arun
+ * @version 1.0
  */
-public class LikeView extends View {
+public class LikeView extends CommonView {
 
-    private final PostView POST_VIEW = PostView.getInstance();
-    private final UserView USER_VIEW = UserView.getInstance();
+    private final PostView postView;
+    private final UserView userView;
     private static LikeView likeView = null;
     private final LikeController LIKE_CONTROLLER = LikeController.getInstance();
     private static Long id = 1L;
 
-    private LikeView() {}
+    private LikeView() {
+        postView = PostView.getInstance();
+        userView = UserView.getInstance();
+    }
 
     /**
      * <p>
-     * Gets a static instance object of the class.
+     * Gets the object of the like view class
      * </p>
      *
-     * @return The like view object.
+     * @return The like view object
      */
     public static LikeView getInstance() {
         return null == likeView ? likeView = new LikeView() : likeView;
@@ -37,18 +40,18 @@ public class LikeView extends View {
 
     /**
      * <p>
-     * Displays the user reaction for the post of the application.
+     * Displays the user reaction for the post of the application
      * </p>
      *
-     * @param userId Represents id of the user.
+     * @param userId Represents id of the user
      */
     public void menu(final Long userId) {
-        System.out.println(String.join("","Click 1 To Like Post\nClick 2 To Unlike Post\nClick 3 To",
+        printMessage(String.join("","Click 1 To Like Post\nClick 2 To Unlike Post\nClick 3 To",
                 "Get All User Liked The Post\nClick 4 To Get Like Count Of The Post\nClick 5 To Post Menu\nClick 6 TO",
                 "User Menu"));
 
         if (exitAccess()) {
-            POST_VIEW.menu(userId);
+            postView.menu(userId);
         }
 
         switch (getChoice()) {
@@ -65,13 +68,13 @@ public class LikeView extends View {
                 getLikeCount();
                 break;
             case 5:
-                POST_VIEW.menu(userId);
+                postView.menu(userId);
                 break;
             case 6:
-                USER_VIEW.userScreen(userId);
+                userView.userScreen(userId);
                 break;
             default:
-                System.out.println("Invalid Choice. Please Enter A Choice In Range[1-5]");
+                printMessage("Invalid Choice. Please Enter A Choice In Range[1-5]");
                 break;
         }
         menu(userId);
@@ -79,10 +82,10 @@ public class LikeView extends View {
 
     /**
      * <p>
-     * Creates the like for the post.
+     * Creates the like for the post
      * </p>
      *
-     * @param userId Represents id of the user.
+     * @param userId Represents id of the user
      */
     private void likePost(final Long userId) {
         final Like like = new Like();
@@ -93,23 +96,23 @@ public class LikeView extends View {
 
         LIKE_CONTROLLER.likePost(like);
 
-        System.out.println("Post Liked Successfully");
+        printMessage("Post Liked Successfully");
     }
 
     /**
      * <p>
-     * Removes the like for the post provided by the user.
+     * Removes the like for the post provided by the user
      * </p>
      */
     private void unlikePost() {
         final Long id = getLikeId();
 
-        System.out.println(LIKE_CONTROLLER.unlikePost(id) ? "Like Removed Successfully" : "Like Not Found");
+        printMessage(LIKE_CONTROLLER.unlikePost(id) ? "Like Removed Successfully" : "Like Not Found");
     }
 
     /**
      * <p>
-     * Gets the collection of user who react for the post.
+     * Gets the collection of user who react for the post
      * </p>
      */
     private void getLikedUser() {
@@ -118,16 +121,16 @@ public class LikeView extends View {
         if (null != users && !users.isEmpty()) {
 
             for (final User user : users) {
-                System.out.println(user.getName());
+                printMessage(user.getName());
             }
         } else {
-            System.out.println("Post Not Liked By Any User");
+            printMessage("Post Not Liked By Any User");
         }
     }
 
     /**
      * <p>
-     * Gets the count of the like for the post.
+     * Gets the count of the like for the post
      * </p>
      */
     private void getLikeCount() {
@@ -138,18 +141,18 @@ public class LikeView extends View {
 
     /**
      * <p>
-     * Gets the like id for the post.
+     * Gets the like id for the post
      * </p>
      *
-     * @return The id of the like.
+     * @return The id of the like
      */
     private Long getLikeId() {
-        System.out.println("Enter Your Like Id:");
+        printMessage("Enter Your Like Id:");
 
         try {
-            return Long.valueOf(SCANNER.nextLine());
+            return Long.valueOf(scanner.nextLine());
         } catch (final NumberFormatException message) {
-            System.out.println("Invalid Like Id Format. Please Enter A Number");
+            printMessage("Invalid Like Id Format. Please Enter A Number");
         }
 
         return getLikeId();
@@ -157,16 +160,16 @@ public class LikeView extends View {
 
     /**
      * <p>
-     * Gets the id of the post.
+     * Gets the id of the post
      * </p>
      *
-     * @return The post id.
+     * @return The post id
      */
     private Long getPostId() {
-        final Long id = POST_VIEW.getPostId();
+        final Long id = postView.getPostId();
 
-        if (null == POST_CONTROLLER.getPost(id)) {
-            System.out.println("Post Not Found By The Id. Please Try Again");
+        if (null == postController.getPost(id)) {
+            printMessage("Post Not Found By The Id. Please Try Again");
 
             return getPostId();
         }
@@ -176,10 +179,10 @@ public class LikeView extends View {
 
     /**
      * <p>
-     * Generates id for the new like.
+     * Generates id for the new like
      * </p>
      *
-     * @return The like id.
+     * @return The like id
      */
     private Long idGenerator() {
         return id++;

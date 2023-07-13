@@ -4,20 +4,20 @@ import java.util.Scanner;
 
 /**
  * <p>
- * Creates an instance of scanner in single time only.
+ * Creates an instance of scanner in single time only
  * </p>
  *
  * @author Arun
- * @version 1.1
+ * @version 1.0
  */
 public class ScannerInstance {
 
     private static Scanner scanner;
 
     /**
-     * Gets a static instance of the scanner.
+     * Gets the object of the scanner class
      *
-     * @return The scanner object.
+     * @return The scanner object
      */
     public static synchronized Scanner getInstance() {
         return null == scanner ? scanner = new Scanner(System.in) : scanner;

@@ -7,50 +7,50 @@ import java.util.Collection;
 
 /**
  * <p>
- * Provides like service for the post.
+ * Provides like service for the post
  * </p>
  *
- * @author Arun.
- * @version 1.0.
+ * @author Arun
+ * @version 1.0
  */
 public interface LikeService {
 
     /**
      * <p>
-     * Creates the like for the post.
+     * Creates the like for the post
      * </p>
      *
-     * @param like Represents {@link Like} details.
+     * @param like Represents {@link Like} details
      */
     void likePost(final Like like);
 
     /**
      * <p>
-     * Removes the like for the post provided by the user.
+     * Removes the like for the post provided by the user
      * </p>
      *
-     * @param id Represents like id.
-     * @return True if like is removed, false otherwise.
+     * @param id Represents like id
+     * @return True if like is removed, false otherwise
      */
     boolean unlikePost(final Long id);
 
     /**
      * <p>
-     * Gets the collection of user who react for the post.
+     * Gets the collection of user who react for the post
      * </p>
      *
-     * @param postId Represents post id.
-     * @return The collection of user.
+     * @param postId Represents post id
+     * @return The collection of user
      */
     Collection<User> getLikeUser(final Long postId);
 
     /**
      * <p>
-     * Gets the count of the like for the post.
+     * Gets the count of the like for the post
      * </p>
      *
-     * @param postId Represents post id.
-     * @return The count of the like.
+     * @param postId Represents post id
+     * @return The count of the like
      */
     Long getLikeCount(final Long postId);
 }
