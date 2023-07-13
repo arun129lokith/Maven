@@ -9,13 +9,30 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * <p>
+ * Implements the database service for the authentication related operation
+ * </p>
+ *
+ * @author Arun
+ * @version 1.1
+ */
 public class AuthenticationDaoImpl implements AuthenticationDao {
 
     private static AuthenticationDaoImpl authenticationDaoImpl;
-    private static final DataBaseConnectionPool CONNECTION_POOL = DataBaseConnectionPool.getInstance();
+    private final DataBaseConnectionPool connectionPool;
 
-    private AuthenticationDaoImpl() {}
+    private AuthenticationDaoImpl() {
+        connectionPool = DataBaseConnectionPool.getInstance();
+    }
 
+    /**
+     * <p>
+     * Gets the object of the class
+     * </p>
+     *
+     * @return The authentication database service implementation object
+     */
     public static AuthenticationDaoImpl getInstance() {
         return null == authenticationDaoImpl ? authenticationDaoImpl = new AuthenticationDaoImpl()
                 : authenticationDaoImpl;
@@ -24,14 +41,14 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
     /**
      * {@inheritDoc}
      *
-     * @param user Represents {@link User} details.
-     * @return True if sign-up is successful, false otherwise.
+     * @param user Represents {@link User} details
+     * @return True if sign-up is successful, false otherwise
      */
     @Override
     public boolean signUp(final User user) {
         final String query = "INSERT INTO USERS (NAME, MOBILE_NUMBER, EMAIL, PASSWORD) VALUES (?,?,?,?)";
 
-        try (final Connection connection = CONNECTION_POOL.get();
+        try (final Connection connection = connectionPool.get();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, user.getName());
@@ -40,7 +57,7 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
             preparedStatement.setString(4, user.getPassword());
 
             preparedStatement.executeUpdate();
-            CONNECTION_POOL.releaseConnection(connection);
+            connectionPool.releaseConnection(connection);
 
             return true;
         } catch (final InterruptedException | SQLException message) {
@@ -53,21 +70,21 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
     /**
      * {@inheritDoc}
      *
-     * @param user Represents {@link User} details.
-     * @return True if mobile number is exists, false otherwise.
+     * @param user Represents {@link User} details
+     * @return True if mobile number is exists, false otherwise
      */
     @Override
     public boolean isMobileNumberExist(final User user) {
         final String query = "SELECT * FROM USERS WHERE MOBILE_NUMBER = ? AND PASSWORD = ?";
 
-        try (final Connection connection = CONNECTION_POOL.get();
+        try (final Connection connection = connectionPool.get();
              final PreparedStatement checkStatement = connection.prepareStatement(query)) {
 
             checkStatement.setString(1, user.getMobileNumber());
             checkStatement.setString(2, user.getPassword());
             final ResultSet resultSet = checkStatement.executeQuery();
 
-            CONNECTION_POOL.releaseConnection(connection);
+            connectionPool.releaseConnection(connection);
 
             return resultSet.next();
         } catch (final SQLException | InterruptedException message) {
@@ -80,21 +97,21 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
     /**
      * {@inheritDoc}
      *
-     * @param user Represents {@link User} details.
-     * @return True if email is exists, false otherwise.
+     * @param user Represents {@link User} details
+     * @return True if email is exists, false otherwise
      */
     @Override
     public boolean isEmailExist(final User user) {
         final String query = "SELECT * FROM USERS WHERE EMAIL = ? AND PASSWORD = ?";
 
-        try (final Connection connection = CONNECTION_POOL.get();
+        try (final Connection connection = connectionPool.get();
              final PreparedStatement checkStatement = connection.prepareStatement(query)) {
 
             checkStatement.setString(1, user.getEmail());
             checkStatement.setString(2, user.getPassword());
             final ResultSet resultSet = checkStatement.executeQuery();
 
-            CONNECTION_POOL.releaseConnection(connection);
+            connectionPool.releaseConnection(connection);
 
             return resultSet.next();
         } catch (final SQLException | InterruptedException message) {

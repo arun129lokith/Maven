@@ -1,38 +1,24 @@
 package com.instagram.database;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import com.instagram.InstagramActivator;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
  * <p>
- * Connects with data base to store user information.
+ * Connects with data base to store user information
  * </p>
  *
- * @author Arun.
- * @version 1.1.
+ * @author Arun
+ * @version 1.1
  */
-public class  DataBaseConnectionPool {
+public class  DataBaseConnectionPool extends InstagramActivator {
 
-    private static final Properties PROPERTIES = new Properties();
-    private static FileInputStream file;
-
-    static {
-        try {
-            file = new FileInputStream("C:\\Users\\arunl\\InstagramMaven\\DataBaseResource\\db.properties");
-
-            PROPERTIES.load(file);
-        } catch (IOException message) {
-            System.out.println(message.getMessage());
-        }
-    }
     private static final String SQL_URL = PROPERTIES.getProperty("db_url");
     private static final String USER_NAME = PROPERTIES.getProperty("db_name");
     private static final String PASSWORD = PROPERTIES.getProperty("db_password");
@@ -48,10 +34,10 @@ public class  DataBaseConnectionPool {
 
     /**
      * <p>
-     * Gets a static instance object of the class.
+     * Gets the object of the connection pool class
      * </p>
      *
-     * @return The database connection object.
+     * @return The database connection object
      */
     public static DataBaseConnectionPool getInstance() {
             return null == connectionPool ? connectionPool = new DataBaseConnectionPool() : connectionPool;
@@ -59,7 +45,7 @@ public class  DataBaseConnectionPool {
 
     /**
      * <p>
-     * Gets the maximum collection of connection at a time.
+     * Gets the maximum collection of connection at a time
      * </p>
      */
     private static void initializePool() {
@@ -79,10 +65,10 @@ public class  DataBaseConnectionPool {
 
     /**
      * <p>
-     *  Gets the connection with database.
+     *  Gets the connection with database
      * </p>
      *
-     * @return The connection of database.
+     * @return The connection of database
      * @throws SQLException
      */
     private static Connection getConnection() throws SQLException {
@@ -91,10 +77,10 @@ public class  DataBaseConnectionPool {
 
     /**
      * <p>
-     * Gets the connection object from the collection.
+     * Gets the connection object from the collection
      * </p>
      *
-     * @return The connection object of database.
+     * @return The connection object of database
      * @throws InterruptedException
      */
     public Connection get() throws InterruptedException {
@@ -103,10 +89,10 @@ public class  DataBaseConnectionPool {
 
     /**
      * <p>
-     * Releases the connection to the collection.
+     * Releases the connection to the collection
      * </p>
      *
-     * @param connection Represents connection object.
+     * @param connection Represents connection object
      */
     public void releaseConnection(final Connection connection) {
         if (null != connection) {
@@ -116,7 +102,7 @@ public class  DataBaseConnectionPool {
 
     /**
      * <p>
-     * Closes the connection with database.
+     * Closes the connection with database
      * </p>
      *
      * @throws SQLException

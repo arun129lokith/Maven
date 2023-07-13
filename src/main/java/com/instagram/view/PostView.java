@@ -9,7 +9,7 @@ import java.time.Instant;
 
 /**
  * <p>
- * Displays post information of the user and provides methods to render post data on the screen.
+ * Displays post information of the user and provides methods to render post data on the screen
  * </p>
  *
  * @author Arun
@@ -17,17 +17,19 @@ import java.time.Instant;
  */
 public class PostView extends CommonView {
 
-    private final UserView USER_VIEW = UserView.getInstance();
+    private final UserView userView;
     private static PostView postView = null;
 
-    private PostView() {}
+    private PostView() {
+        userView = UserView.getInstance();
+    }
 
     /**
      * <p>
-     * Gets a static instance object of the class.
+     * Gets the object of the post view class
      * </p>
      *
-     * @return The post view object.
+     * @return The post view object
      */
     public static PostView getInstance() {
         return null == postView ? postView = new PostView() : postView;
@@ -35,18 +37,18 @@ public class PostView extends CommonView {
 
     /**
      * <p>
-     * Prints the post menu of the user.
+     * Prints the post menu of the user
      * </p>
      *
-     * @param userId Represents user id.
+     * @param userId Represents user id
      */
     public void menu(final Long userId) {
-        System.out.println(String.join(" ","Click 1 To Create Post\nClick 2 To Display All Post",
+        printMessage(String.join(" ","Click 1 To Create Post\nClick 2 To Display All Post",
                 "\nClick 3 To Delete Post\nClick 4 To Update Post\nClick 5 To Display Post By Id\nClick 6 To User",
                 "Screen\nClick 7 To Like Menu"));
 
         if (exitAccess()) {
-            USER_VIEW.userScreen(userId);
+            userView.userScreen(userId);
         }
         final LikeView like = LikeView.getInstance();
 
@@ -67,13 +69,13 @@ public class PostView extends CommonView {
                 getPost();
                 break;
             case 6:
-                USER_VIEW.userScreen(userId);
+                userView.userScreen(userId);
                 break;
             case 7:
                 like.menu(userId);
                 break;
             default:
-                System.out.println("Invalid User Choice. Please Enter The Choice In The Range[1-7]");
+                printMessage("Invalid User Choice. Please Enter The Choice In The Range[1-7]");
                 menu(userId);
                 break;
         }
@@ -82,13 +84,13 @@ public class PostView extends CommonView {
 
     /**
      * <p>
-     * Gets user location.
+     * Gets user location
      * </p>
      *
-     * @return The location of the user.
+     * @return The location of the user
      */
     private String getLocation() {
-        System.out.println("Enter Your Location Of Your Post:");
+        printMessage("Enter Your Location Of Your Post:");
         final String location = scanner.nextLine().trim();
 
         return validation.isValidLocation(location) ? location : getLocation();
@@ -96,23 +98,23 @@ public class PostView extends CommonView {
 
     /**
      * <p>
-     * Gets user caption.
+     * Gets user caption
      * </p>
      *
-     * @return The caption of the user.
+     * @return The caption of the user
      */
     private String getCaption() {
-        System.out.println("Enter Your Caption:");
+        printMessage("Enter Your Caption:");
 
         return scanner.nextLine();
     }
 
     /**
      * <p>
-     * Creates the post of the user.
+     * Creates the post of the user
      * </p>
      *
-     * @param userId Represents user id.
+     * @param userId Represents user id
      */
     private void create(final Long userId) {
         final PostBuilder post = PostBuilder.getInstance();
@@ -125,25 +127,25 @@ public class PostView extends CommonView {
         post.withUserId(userId);
 
 
-        System.out.println(postController.create(post.build()) ? "User Posted Successfully" : "Post Not Created");
+        printMessage(postController.create(post.build()) ? "User Posted Successfully" : "Post Not Created");
         menu(userId);
     }
 
     /**
      * <p>
-     * Gets the format of the post of the user.
+     * Gets the format of the post of the user
      * </p>
      *
-     * @return Represents {@link Post} format of the user.
+     * @return Represents {@link Post} format of the user
      */
     private Format getFormat() {
-        System.out.println("Click 1 To Image Format\nClick 2 To Video Format");
-        final Format format = Format.existingFormat(USER_VIEW.getChoice());
+        printMessage("Click 1 To Image Format\nClick 2 To Video Format");
+        final Format format = Format.existingFormat(userView.getChoice());
 
         if (null != format) {
             return format;
         } else {
-            System.out.println("Invalid Post Format Choice. Please Enter The Choice For Post Format In The Range[1-2]");
+            printMessage("Invalid Post Format Choice. Please Enter The Choice For Post Format In The Range[1-2]");
 
             return getFormat();
         }
@@ -151,7 +153,7 @@ public class PostView extends CommonView {
 
     /**
      * <p>
-     * Prints the all posts, posted by user.
+     * Prints the all posts, posted by user
      * </p>
      */
     private void displayAll() {
@@ -160,10 +162,10 @@ public class PostView extends CommonView {
 
     /**
      * <p>
-     * Gets the post detail of the user.
+     * Gets the post detail of the user
      * </p>
      *
-     * @return The post details of the id.
+     * @return The post details of the id
      */
     private Post getPost() {
         final Post post = postController.getPost(getPostId());
@@ -175,22 +177,22 @@ public class PostView extends CommonView {
 
     /**
      * <p>
-     * Users to delete the post.
+     * Users to delete the post
      * </p>
      */
     private void delete() {
-        System.out.println("Enter Your PostId:");
-        System.out.println(postController.delete(getPostId()) ? "Post Deleted Successfully"
+        printMessage("Enter Your PostId:");
+        printMessage(postController.delete(getPostId()) ? "Post Deleted Successfully"
                 : "Post Not Found");
     }
 
     /**
      * <p>
-     * Sets the details of the user post to update.
+     * Sets the details of the user post to update
      * </p>
      */
     private void update(final Long userId) {
-        System.out.println("Get The Post Of The User To Update Post Details");
+        printMessage("Get The Post Of The User To Update Post Details");
         final Post post = new Post();
         final Post existingPost = getPostById(userId);
 
@@ -198,31 +200,31 @@ public class PostView extends CommonView {
             post.setId(existingPost.getId());
             post.setUserId(existingPost.getUserId());
             post.setFormat(existingPost.getFormat());
-            post.setLocation(USER_VIEW.exitAccess() ? existingPost.getLocation() : getLocation());
-            post.setCaption(USER_VIEW.exitAccess() ? existingPost.getCaption() : getCaption());
+            post.setLocation(userView.exitAccess() ? existingPost.getLocation() : getLocation());
+            post.setCaption(userView.exitAccess() ? existingPost.getCaption() : getCaption());
             post.setUploadedTime(Timestamp.from(Instant.now()));
 
             postController.update(post);
-            System.out.println("Post Updated Successfully");
+            printMessage("Post Updated Successfully");
         } else {
-            System.out.println("Please Try Again");
+            printMessage("Please Try Again");
         }
     }
 
     /**
      * <p>
-     * Gets valid post id of the user.
+     * Gets valid post id of the user
      * </p>
      *
-     * @return The post id of the user.
+     * @return The post id of the user
      */
     public Long getPostId() {
-        System.out.println("Enter Your PostId:");
+        printMessage("Enter Your PostId:");
 
         try {
             return Long.parseLong(scanner.nextLine());
         } catch (final NumberFormatException message) {
-            System.out.println("Invalid Post Id Format. Please Enter A Number");
+            printMessage("Invalid Post Id Format. Please Enter A Number");
         }
 
         return getPostId();
@@ -230,11 +232,11 @@ public class PostView extends CommonView {
 
     /**
      * <p>
-     * Gets a post of the user, if the post is posted by the user.
+     * Gets a post of the user, if the post is posted by the user
      * </p>
      *
-     * @param userId Represents id of the user.
-     * @return The post details of the user.
+     * @param userId Represents id of the user
+     * @return The post details of the user
      */
     private Post getPostById(final Long userId) {
         final Post post = getPost();
@@ -252,10 +254,10 @@ public class PostView extends CommonView {
 
     /**
      * <p>
-     * Generates id for the new post.
+     * Generates id for the new post
      * </p>
      *
-     * @return The post id.
+     * @return The post id
      */
     private long idGenerator() {
         return postController.getAllPost().size() + 1;

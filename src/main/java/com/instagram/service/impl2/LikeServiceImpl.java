@@ -10,7 +10,7 @@ import java.util.Collection;
 
 /**
  * <p>
- * Implements the service of like related operation.
+ * Implements the service of like related operation
  * </p>
  *
  * @author Arun.
@@ -19,16 +19,18 @@ import java.util.Collection;
 public class LikeServiceImpl implements LikeService {
 
     private static LikeServiceImpl likeServiceImpl;
-    private static final LikeDao LIKE_DAO = LikeDaoImpl.getInstance();
+    private final LikeDao likeDao;
 
-    private LikeServiceImpl() {}
+    private LikeServiceImpl() {
+        likeDao = LikeDaoImpl.getInstance();
+    }
 
     /**
      * <p>
-     * Gets a static instance object of the class.
+     * Gets the object of the class
      * </p>
      *
-     * @return The like service implementation object.
+     * @return The like service implementation object
      */
     public static LikeServiceImpl getInstance() {
         return null == likeServiceImpl ? likeServiceImpl = new LikeServiceImpl() : likeServiceImpl;
@@ -37,43 +39,43 @@ public class LikeServiceImpl implements LikeService {
     /**
      * {@inheritDoc}
      *
-     * @param like Represents {@link Like} details.
+     * @param like Represents {@link Like} details
      */
     @Override
     public void likePost(final Like like) {
-        LIKE_DAO.likePost(like);
+        likeDao.likePost(like);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param id Represents like id.
-     * @return True if like is removed, false otherwise.
+     * @param id Represents like id
+     * @return True if like is removed, false otherwise
      */
     @Override
     public boolean unlikePost(final Long id) {
-        return LIKE_DAO.unlikePost(id);
+        return likeDao.unlikePost(id);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param postId Represents post id.
-     * @return The collection of user.
+     * @param postId Represents post id
+     * @return The collection of user
      */
     @Override
     public Collection<User> getLikeUser(final Long postId) {
-        return LIKE_DAO.getLikeUser(postId);
+        return likeDao.getLikeUser(postId);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param postId Represents post id.
-     * @return The count of the like.
+     * @param postId Represents post id
+     * @return The count of the like
      */
     @Override
     public Long getLikeCount(final Long postId) {
-        return LIKE_DAO.getLikeCount(postId);
+        return likeDao.getLikeCount(postId);
     }
 }

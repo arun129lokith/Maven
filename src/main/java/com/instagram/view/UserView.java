@@ -14,14 +14,14 @@ import com.instagram.model.User;
  */
 public class UserView extends CommonView {
 
-    private final AuthenticationView AUTHENTICATION_VIEW = AuthenticationView.getInstance();
+    private static final AuthenticationView AUTHENTICATION_VIEW = AuthenticationView.getInstance();
     private static UserView userView = null;
 
     private UserView() {}
 
     /**
      * <p>
-     * Gets the object of the user view class.
+     * Gets the object of the user view class
      * </p>
      *
      * @return The user view object
@@ -32,35 +32,35 @@ public class UserView extends CommonView {
 
     /**
      * <p>
-     * Gets the valid username from the user.
+     * Gets the username from the user after validating the name
      * </p>
      *
-     * @return The valid username of the user.
+     * @return The valid username of the user
      */
-    public String getName() {
-        System.out.println(String.join("\n", "Enter Your UserName:",
+    public String getProcessedUserName() {
+        printMessage(String.join("\n", "Enter Your UserName:",
                 "[Username Contains Lowercase Letter And Underscore And Digits Without Space]",
                 "If You Want To Exit Press '!'"));
         final String name = scanner.nextLine().trim();
 
         exitMenu(name);
 
-        return validation.validateUserName(name) ? name : getName();
+        return validation.validateUserName(name) ? name : getProcessedUserName();
     }
 
     /**
      * <p>
-     * Gets the valid username is not already exists in the application.
+     * Gets the valid username is not already exists in the application
      * </p>
      *
-     * @param name Represents user name.
-     * @return The valid username.
+     * @param name Represents user name
+     * @return The valid username
      */
     public String getValidName(final String name) {
         if (validation.isValidName(name)) {
-            System.out.println("User Name Already Exist. Please Re-enter The Valid User Name");
+            printMessage("User Name Already Exist. Please Re-enter The Valid User Name");
 
-            return getValidName(getName());
+            return getValidName(getProcessedUserName());
         }
 
         return name;
@@ -68,13 +68,13 @@ public class UserView extends CommonView {
 
     /**
      * <p>
-     * Gets the valid email from the user.
+     * Gets the valid email from the user after validation
      * </p>
      *
-     * @return The valid email of the user.
+     * @return The valid email of the user
      */
-    public String getEmail() {
-        System.out.println(String.join(" ", "Enter Your EmailId:",
+    public String getProcessedEmail() {
+        printMessage(String.join(" ", "Enter Your EmailId:",
                 "\n[EmailId Must Contains Lowercase Letter[a-z] Then Contain Digits[0-9] Is Optional One",
                 "'@' After Must Contains [5 Or Above] Lowercase Letter And '.' After Must Contains 2 Or 3 ",
                 "Characters]\nIF You Want To Exit Press '!'"));
@@ -82,22 +82,22 @@ public class UserView extends CommonView {
 
         exitMenu(email);
 
-        return validation.validateEmail(email) ? email : getEmail();
+        return validation.validateEmail(email) ? email : getProcessedEmail();
     }
 
     /**
      * <p>
-     * Gets the email is not already exists in the application.
+     * Gets the email is not already exists in the application
      * </p>
      *
-     * @param email Represents user email.
-     * @return The mobile number of the user.
+     * @param email Represents user email
+     * @return The mobile number of the user
      */
     public String getValidEmail(final String email) {
         if (validation.isValidEmail(email)) {
-            System.out.println("User Email Is Already Exist. Please Re-enter The Valid User Name");
+            printMessage("User Email Is Already Exist. Please Re-enter The Valid User Name");
 
-            return getValidEmail(getEmail());
+            return getValidEmail(getProcessedEmail());
         }
 
         return email;
@@ -105,52 +105,52 @@ public class UserView extends CommonView {
 
     /**
      * <p>
-     * Gets the valid password from the user.
+     * Gets the password from the user after validating the password
      * </p>
      *
-     * @return The valid password of the user.
+     * @return The valid password of the user
      */
-    public String getPassword() {
-        System.out.println(String.join(" ", "Enter Your Password:", "\n[Password Must Contain At least",
+    public String getProcessedPassword() {
+        printMessage(String.join(" ", "Enter Your Password:", "\n[Password Must Contain At least",
                 "One Uppercase, One Lowercase, Special Character And Digits In The Range 8-20 Characters]",
                 "\nIF You Want To Exit Press '!'"));
         final String password = scanner.nextLine().trim();
 
         exitMenu(password);
 
-        return validation.validatePassword(password) ? password : getPassword();
+        return validation.validatePassword(password) ? password : getProcessedPassword();
     }
 
     /**
      * <p>
-     * Gets the valid mobile number from the user.
+     * Gets the valid mobile number from the user after validation
      * </p>
      *
-     * @return The mobile number of the user.
+     * @return The mobile number of the user
      */
-    public String getMobileNumber() {
-        System.out.println(String.join(" ", "Enter Your Mobile Number:", "\n[Mobile Number Must",
+    public String getProcessedMobileNumber() {
+        printMessage(String.join(" ", "Enter Your Mobile Number:", "\n[Mobile Number Must",
                 "Contains 10 Digits  And Starts With [6-9]]", "\nIf You Want To Exit Press '!'"));
         final String mobileNumber = scanner.nextLine().trim();
 
         exitMenu(mobileNumber);
 
-        return validation.validateMobileNumber(mobileNumber) ? mobileNumber : getMobileNumber();
+        return validation.validateMobileNumber(mobileNumber) ? mobileNumber : getProcessedMobileNumber();
     }
 
     /**
      * <p>
-     * Gets the mobile number is not already exists in the application.
+     * Gets the mobile number is not already exists in the application
      * </p>
      *
-     * @param mobileNumber Represents user mobile number.
-     * @return The mobile number of the user.
+     * @param mobileNumber Represents user mobile number
+     * @return The mobile number of the user
      */
     public String getValidMobileNumber(final String mobileNumber) {
         if (validation.isValidMobileNumber(mobileNumber)) {
-            System.out.println("User Mobile Number Is Already Exist. Please Re-enter The Valid User Name");
+            printMessage("User Mobile Number Is Already Exist. Please Re-enter The Valid User Name");
 
-            return getValidMobileNumber(getMobileNumber());
+            return getValidMobileNumber(getProcessedMobileNumber());
         }
 
         return mobileNumber;
@@ -158,11 +158,11 @@ public class UserView extends CommonView {
 
     /**
      * <p>
-     * Gets the user details of the user.
+     * Gets the user details of the user
      * </p>
      */
     private void getUser() {
-        System.out.println("Enter Your UserId:");
+        printMessage("Enter Your UserId:");
         final User user = userController.getUser(getUserId());
 
         System.out.println(null != user ? user : "User Not Found");
@@ -170,7 +170,7 @@ public class UserView extends CommonView {
 
     /**
      * <p>
-     * Gets the all user details.
+     * Gets the all user details
      * </p>
      */
     private void getAllUsers() {
@@ -179,13 +179,13 @@ public class UserView extends CommonView {
 
     /**
      * <p>
-     * Prints the features of the application.
+     * Prints the features of the application
      * </p>
      *
-     * @param id Represents user id.
+     * @param id Represents user id
      */
     public void userScreen(final Long id) {
-        System.out.println(String.join(" ","Click 1 To User Post Menu\nClick 2 To Logout", "\nClick 3",
+        printMessage(String.join(" ","Click 1 To User Post Menu\nClick 2 To Logout", "\nClick 3",
                 "To Get User\nClick 4 To Get All User \nClick 5 To Update User\nClick 6 To Delete User",
                 "\nClick 7 To Main Menu\nClick 8 To Display Post Of The User"));
         final PostView postView = PostView.getInstance();
@@ -216,7 +216,7 @@ public class UserView extends CommonView {
                 displayPost();
                 break;
             default:
-                System.out.println("Invalid User Choice. Please Try Again\n[Enter The Choice In The Range 1-8]");
+                printMessage("Invalid User Choice. Please Try Again\n[Enter The Choice In The Range 1-8]");
                 userScreen(id);
         }
         userScreen(id);
@@ -224,11 +224,11 @@ public class UserView extends CommonView {
 
     /**
      * <p>
-     * Displays the collection of user post.
+     * Displays the collection of user post
      * </p>
      */
     private void displayPost() {
-        System.out.println("Enter The User Id To Get Collection Of Post:");
+        printMessage("Enter The User Id To Get Collection Of Post:");
         final User user = getUserById(getUserId());
 
         if (null != user) {
@@ -242,25 +242,25 @@ public class UserView extends CommonView {
                     }
                 }
             } else {
-                System.out.println("Post Not Created By The User");
+                printMessage("Post Not Created By The User");
             }
         } else {
-            System.out.println("User Not Found.Please Try Again");
+            printMessage("User Not Found.Please Try Again");
         }
     }
 
     /**
      * <p>
-     * Gets the valid user id.
+     * Gets the valid user id
      * </p>
      *
-     * @return The user id.
+     * @return The user id
      */
     private Long getUserId() {
         try {
             return Long.parseLong(scanner.nextLine());
         } catch (final NumberFormatException message) {
-            System.out.println("Invalid User Id Format. Please Enter A Number");
+            printMessage("Invalid User Id Format. Please Enter A Number");
         }
 
         return getUserId();
@@ -268,10 +268,10 @@ public class UserView extends CommonView {
 
     /**
      * <p>
-     * Users to enter update details of the user information.
+     * Users to enter update details of the user information
      * </p>
      *
-     * @param id Represents user id.
+     * @param id Represents user id
      */
     private void update(final Long id) {
         final UserBuilder user = UserBuilder.getInstance();
@@ -279,21 +279,21 @@ public class UserView extends CommonView {
 
         System.out.println(existingUser);
         user.withId(id);
-        user.withName(exitAccess() ? existingUser.getName() : getValidName(getName()));
-        user.withPassword(exitAccess() ? existingUser.getPassword() : getPassword());
-        user.withEmail(exitAccess() ? existingUser.getEmail() : getValidEmail(getEmail()));
-        user.withMobileNumber(exitAccess() ? existingUser.getMobileNumber() : getValidMobileNumber(getMobileNumber()));
+        user.withName(exitAccess() ? existingUser.getName() : getValidName(getProcessedUserName()));
+        user.withPassword(exitAccess() ? existingUser.getPassword() : getProcessedPassword());
+        user.withEmail(exitAccess() ? existingUser.getEmail() : getValidEmail(getProcessedEmail()));
+        user.withMobileNumber(exitAccess() ? existingUser.getMobileNumber() : getValidMobileNumber(getProcessedMobileNumber()));
 
-        System.out.println(userController.update(user.build()) ? "Account Updated Successfully" : "User Not Found");
+        printMessage(userController.update(user.build()) ? "Account Updated Successfully" : "User Not Found");
     }
 
     /**
      * <p>
-     * Gets user information by id of the user.
+     * Gets user information by id of the user
      * </p>
      *
-     * @param id Represents user id.
-     * @return Represents {@link User} information.
+     * @param id Represents user id
+     * @return Represents {@link User} information
      */
     public User getUserById(final Long id) {
         return userController.getUser(id);
@@ -301,27 +301,27 @@ public class UserView extends CommonView {
 
     /**
      * <p>
-     * Users to delete his account.
+     * Users to delete his account
      * </p>
      */
     private void delete() {
-        System.out.println("Enter Your User Id:");
+        printMessage("Enter Your User Id:");
 
         if (userController.delete(getUserId())) {
-            System.out.println("User Account Deleted Successfully");
+            printMessage("User Account Deleted Successfully");
             AUTHENTICATION_VIEW.menu();
         } else {
-            System.out.println("User Not Found. Please Try Again");
+            printMessage("User Not Found. Please Try Again");
         }
     }
 
     /**
      * <p>
-     * Users to log out the page.
+     * Users to log out the page
      * </p>
      */
     private void logout() {
-        System.out.println("Logged Out Successfully");
+        printMessage("Logged Out Successfully");
 
         if (exitAccess()) {
             scanner.close();
@@ -332,10 +332,10 @@ public class UserView extends CommonView {
 
     /**
      * <p>
-     * Exits the screen to menu.
+     * Exits the screen to menu
      * </p>
      *
-     * @param userChoice Represents the choice of the user.
+     * @param userChoice Represents the choice of the user
      */
     private void exitMenu(final String userChoice) {
         if (validation.backToMenu(userChoice)) {

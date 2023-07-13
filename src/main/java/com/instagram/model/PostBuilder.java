@@ -6,11 +6,11 @@ import com.instagram.model.Post.Format;
 
 /**
  * <p>
- * Builds the post object of the user.
+ * Builds the post object of the user
  * </p>
  *
- * @author Arun.
- * @version 1.1.
+ * @author Arun
+ * @version 1.0
  */
 public class PostBuilder {
 
@@ -23,10 +23,10 @@ public class PostBuilder {
 
     /**
      * <p>
-     * Gets a static instance object of the class.
+     * Gets the object of the post builder class
      * </p>
      *
-     * @return The post builder object.
+     * @return The post builder object
      */
     public static PostBuilder getInstance() {
         return null == postBuilder ? postBuilder = new PostBuilder() : postBuilder;
@@ -34,10 +34,10 @@ public class PostBuilder {
 
     /**
      * <p>
-     * Builds the post with id.
+     * Builds the post with id
      * </p>
      *
-     * @param id Represents post id.
+     * @param id Represents post id
      */
     public void withId(final Long id) {
         post.setId(id);
@@ -45,10 +45,10 @@ public class PostBuilder {
 
     /**
      * <p>
-     * Builds the post with userId.
+     * Builds the post with userId
      * </p>
      *
-     * @param userId Represents user id.
+     * @param userId Represents user id
      */
     public void withUserId(final Long userId) {
         post.setUserId(userId);
@@ -56,10 +56,10 @@ public class PostBuilder {
 
     /**
      * <p>
-     * Builds the post with location.
+     * Builds the post with location
      * </p>
      *
-     * @param location Represents post location.
+     * @param location Represents post location
      */
     public void withLocation(final String location) {
         post.setLocation(location);
@@ -67,10 +67,10 @@ public class PostBuilder {
 
     /**
      * <p>
-     * Builds the post with caption.
+     * Builds the post with caption
      * </p>
      *
-     * @param caption Represents post caption.
+     * @param caption Represents post caption
      */
     public void withCaption(final String caption) {
         post.setCaption(caption);
@@ -78,10 +78,10 @@ public class PostBuilder {
 
     /**
      * <p>
-     * Builds the post with uploaded time.
+     * Builds the post with uploaded time
      * </p>
      *
-     * @param uploadedTime Represents post uploaded time.
+     * @param uploadedTime Represents post uploaded time
      */
     public void withUploadedTime(final Timestamp uploadedTime) {
         post.setUploadedTime(uploadedTime);
@@ -89,10 +89,10 @@ public class PostBuilder {
 
     /**
      * <p>
-     * Builds the post with format.
+     * Builds the post with format
      * </p>
      *
-     * @param format Represents post format.
+     * @param format Represents post format
      */
     public void withFormat(final Format format) {
         post.setFormat(format);
@@ -100,10 +100,10 @@ public class PostBuilder {
 
     /**
      * <p>
-     * Builds the post object.
+     * Builds the post object
      * </p>
      *
-     * @return The post object.
+     * @return The post object
      */
     public Post build() {
         return this.post;

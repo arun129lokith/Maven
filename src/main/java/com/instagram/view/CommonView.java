@@ -57,4 +57,15 @@ public class CommonView {
 
         return validation.continueOrExit(scanner.nextLine());
     }
+
+    /**
+     * <p>
+     * Prints the information to the user
+     * </p>
+     *
+     * @param message Represents information of the process
+     */
+    protected void printMessage(final String message) {
+        System.out.println(message);
+    }
 }

@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * <p>
- * Implements the service of the user related operation.
+ * Implements the service of the user related operation
  * </p>
  *
  * @author Arun
@@ -24,10 +24,10 @@ public class UserServiceImpl extends AuthenticationServiceImpl implements UserSe
 
     /**
      * <p>
-     * Gets a static instance object of the class.
+     * Gets the object of the class
      * </p>
      *
-     * @return The user service implementation object.
+     * @return The user service implementation object
      */
     public static UserServiceImpl getInstance() {
         return null == userServiceImpl ? userServiceImpl = new UserServiceImpl() : userServiceImpl;
@@ -36,46 +36,46 @@ public class UserServiceImpl extends AuthenticationServiceImpl implements UserSe
     /**
      * {@inheritDoc}
      *
-     * @param id Represents user id.
-     * @return The user details.
+     * @param id Represents user id
+     * @return The user details
      */
     @Override
     public User getUser(final Long id) {
-        return USERS.containsKey(id) ? USERS.get(id) : null;
+        return users.containsKey(id) ? users.get(id) : null;
     }
 
     /**
      * {@inheritDoc}
      *
-     * @return The collection of user details.
+     * @return The collection of user details
      */
     @Override
     public Collection<User> getAllUsers() {
-        return USERS.values();
+        return users.values();
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param user Represents {@link User} details.
-     * @return True if update is successful, false otherwise.
+     * @param user Represents {@link User} details
+     * @return True if update is successful, false otherwise
      */
     @Override
     public boolean update(final User user) {
-        USERS.put(user.getId(), user);
+        users.put(user.getId(), user);
         return true;
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param id Represents user id.
-     * @return True if account is deleted, false otherwise.
+     * @param id Represents user id
+     * @return True if account is deleted, false otherwise
      */
     @Override
     public boolean delete(final Long id) {
-        if (USERS.containsKey(id)) {
-            USERS.remove(id);
+        if (users.containsKey(id)) {
+            users.remove(id);
 
             return true;
         }
@@ -86,12 +86,12 @@ public class UserServiceImpl extends AuthenticationServiceImpl implements UserSe
     /**
      * {@inheritDoc}
      *
-     * @param user Represents {@link User} detail.
-     * @return Users id.
+     * @param user Represents {@link User} detail
+     * @return Users id
      */
     @Override
     public Long getId(final User user) {
-        for (final Map.Entry<Long, User> entry : USERS.entrySet()) {
+        for (final Map.Entry<Long, User> entry : users.entrySet()) {
             final User existingUser = entry.getValue();
 
             if (existingUser.getEmail().equals(user.getEmail())
@@ -106,12 +106,12 @@ public class UserServiceImpl extends AuthenticationServiceImpl implements UserSe
     /**
      * {@inheritDoc}
      *
-     * @param name Represents user name.
-     * @return True if name is exists, false otherwise.
+     * @param name Represents user name
+     * @return True if name is exists, false otherwise
      */
     @Override
     public boolean isNameExist(final String name) {
-        for (final User existingUser : USERS.values()) {
+        for (final User existingUser : users.values()) {
 
             return existingUser.getName().equals(name);
         }
@@ -122,12 +122,12 @@ public class UserServiceImpl extends AuthenticationServiceImpl implements UserSe
     /**
      * {@inheritDoc}
      *
-     * @param email Represents user email.
-     * @return True if email is exists, false otherwise.
+     * @param email Represents user email
+     * @return True if email is exists, false otherwise
      */
     @Override
     public boolean isEmailExist(final String email) {
-        for (final User existingUser : USERS.values()) {
+        for (final User existingUser : users.values()) {
 
             return existingUser.getEmail().equals(email);
         }
@@ -138,12 +138,12 @@ public class UserServiceImpl extends AuthenticationServiceImpl implements UserSe
     /**
      * {@inheritDoc}
      *
-     * @param mobileNumber Represents user mobile number.
-     * @return True if mobile number is exists, false otherwise.
+     * @param mobileNumber Represents user mobile number
+     * @return True if mobile number is exists, false otherwise
      */
     @Override
     public boolean isMobileNumberExist(final String mobileNumber) {
-        for (final User existingUser : USERS.values()) {
+        for (final User existingUser : users.values()) {
 
             return existingUser.getMobileNumber().equals(mobileNumber);
         }

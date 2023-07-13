@@ -9,7 +9,7 @@ import java.util.Collection;
 
 /**
  * <p>
- * Handles the user related operation and responsible for receiving user input and processing it.
+ * Handles the user related operation and responsible for receiving user input and processing it
  * </p>
  *
  * @author Arun
@@ -17,17 +17,19 @@ import java.util.Collection;
  */
 public class UserController {
 
-    private static final UserService USER_SERVICE = UserServiceImpl.getInstance();
+    private final UserService userService;
     private static UserController userController = null;
 
-    private UserController() {}
+    private UserController() {
+        userService =  UserServiceImpl.getInstance();
+    }
 
     /**
      * <p>
-     * Gets a static instance object of the class.
+     * Gets the object of the user controller class
      * </p>
      *
-     * @return The user controller object.
+     * @return The user controller object
      */
     public static UserController getInstance() {
        return null == userController ? userController = new UserController() : userController;
@@ -35,96 +37,96 @@ public class UserController {
 
     /**
      * <p>
-     * Gets the user details of the user.
+     * Gets the user details of the user
      * </p>
      *
-     * @param id Represents user id.
-     * @return The user details.
+     * @param id Represents user id
+     * @return The user details
      */
     public User getUser(final Long id) {
-        return USER_SERVICE.getUser(id);
+        return userService.getUser(id);
     }
 
     /**
      * <p>
-     * Collects the all user information.
+     * Collects the all user information
      * </p>
      *
-     * @return The collection of user details.
+     * @return The collection of user details
      */
     public Collection<User> getAllUsers() {
-        return USER_SERVICE.getAllUsers();
+        return userService.getAllUsers();
     }
 
     /**
      * <p>
-     * Updates the user details.
+     * Updates the user details
      * </p>
      *
-     * @param user Represent {@link User} details.
+     * @param user Represent {@link User} details
      * @return True if user details is update, false otherwise
      */
     public boolean update(final User user) {
-        return USER_SERVICE.update(user);
+        return userService.update(user);
     }
 
     /**
      * <p>
-     * Deletes the user account details.
+     * Deletes the user account details
      * </p>
      *
-     * @param id Represents user id.
-     * @return True if account is deleted, false otherwise.
+     * @param id Represents user id
+     * @return True if account is deleted, false otherwise
      */
     public boolean delete(final Long id) {
-        return USER_SERVICE.delete(id);
+        return userService.delete(id);
     }
 
     /**
      * <p>
-     * Gets the user id of the user.
+     * Gets the user id of the user
      * </p>
      *
-     * @param user Represents {@link User} details.
-     * @return The user id of the user.
+     * @param user Represents {@link User} details
+     * @return The user id of the user
      */
     public Long getId(final User user) {
-        return USER_SERVICE.getId(user);
+        return userService.getId(user);
     }
 
     /**
      * <p>
-     * Checks the username is exists.
+     * Checks the username is exists
      * </p>
      *
-     * @param name Represents user name.
-     * @return True if username is exists, false otherwise.
+     * @param name Represents user name
+     * @return True if username is exists, false otherwise
      */
     public boolean isNameExist(final String name) {
-        return USER_SERVICE.isNameExist(name);
+        return userService.isNameExist(name);
     }
 
     /**
      * <p>
-     * Checks the email is exists.
+     * Checks the email is exists
      * </p>
      *
-     * @param email Represents user email.
-     * @return True if email is exists, false otherwise.
+     * @param email Represents user email
+     * @return True if email is exists, false otherwise
      */
     public boolean isEmailExist(final String email) {
-        return USER_SERVICE.isEmailExist(email);
+        return userService.isEmailExist(email);
     }
 
     /**
      * <p>
-     * Checks the mobile number is exists.
+     * Checks the mobile number is exists
      * </p>
      *
-     * @param mobileNumber Represents user mobile number.
-     * @return True if mobile number is exists, false otherwise.
+     * @param mobileNumber Represents user mobile number
+     * @return True if mobile number is exists, false otherwise
      */
     public boolean isMobileNumberExist(final String mobileNumber) {
-        return USER_SERVICE.isMobileNumberExist(mobileNumber);
+        return userService.isMobileNumberExist(mobileNumber);
     }
 }

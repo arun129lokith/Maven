@@ -2,8 +2,11 @@ package com.instagram.model;
 
 /**
  * <p>
- * Represents the like entity of the post with various properties and methods.
+ * Represents the like entity of the post with various properties and methods
  * </p>
+ *
+ * @author Arun
+ * @version 1.0
  */
 public class Like {
 

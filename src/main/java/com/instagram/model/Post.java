@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 /**
  * <p>
- * Represents the post entity of the user with various properties and methods.
+ * Represents the post entity of the user with various properties and methods
  * </p>
  *
  * @author Arun
